@@ -29,6 +29,12 @@ const Navbar: React.FC = () => {
           >
             Направи обява
           </Link>
+          <Link
+            to="/messages"
+            className="px-4 py-2 rounded hover:bg-blue-500 transition"
+          >
+            Ново съобщения
+          </Link>
 
           <Protect 
           condition={(has) => has({ role: 'org:admin' })}>

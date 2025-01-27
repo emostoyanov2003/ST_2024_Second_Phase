@@ -8,42 +8,50 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  username  String
-  role      String
-  password  String?   @unique
-  email     String   @unique
-  name      String?
-  createdAt DateTime @default(now())
-  clerkUserId  String @unique
-  rating Int @default(0)
+  id          Int      @id @default(autoincrement())
+  username    String
+  role        String
+  password    String?  @unique
+  email       String   @unique
+  name        String?
+  createdAt   DateTime @default(now())
+  clerkUserId String   @unique
+  rating      Int      @default(0)
   phoneNumber String?
 }
+
+model item {
+  id            Int        @id @default(autoincrement())
+  name          String
+  description   String?
+  ownerId       Int
+  categoryId    Int
+  creatorName   String
+  type          String
+  imageUrl      String?
+  creatorPhone  String
+  receiverPhone String
+  neighborhood  String
+  status        ItemStatus
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  clerkUserId   String
+}
+
+model message {
+  id          Int    @id @default(autoincrement())
+  title       String
+  toUser      Int
+  clerkUserId String
+  message     String
+}
+
 enum ItemStatus {
   AVAILABLE
   DONE
 }
 
-enum ItemType{
+enum ItemType {
   ITEM
   FAVOR
-}
-
-
-model item {
-  id          Int     @id @default(autoincrement())
-  name        String
-  description String?
-  ownerId     Int
-  categoryId  Int
-  creatorName String
-  type         String   // Should hold values like "Item" or "Favor"
-  imageUrl     String?  // Nullable to account for optional image upload
-  creatorPhone  String
-  receiverPhone String
-  neighborhood String
-  status       ItemStatus
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  clerkUserId String
 }
