@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { LoaderFunction, json } from "@remix-run/node";
+import { ActionFunctionArgs, LoaderFunction, json } from "@remix-run/node";
 import { useLoaderData, useNavigate } from "@remix-run/react";
 import neighborhoods from "../utils/neighborhoods.json";
 import MapComponent from "../components/map.client";
 import Navbar from "../components/navbar";
-
-
+import { prisma } from "../../prisma/db.server"; // Adjust this path as needed
+import { getAuth } from "@clerk/remix/ssr.server"; // Clerk's auth helper
+import { clerkClient } from "@clerk/clerk-sdk-node";
 
 export const neighborhoodsNames = [
   { "id": 1, "name": "Сердика" },
@@ -224,7 +225,32 @@ export const neighborhoodsNames = [
 
 ];
 // Loader to fetch neighborhood data
-export const loader: LoaderFunction = async () => {
+export const loader = async (args: ActionFunctionArgs) => {
+  /*const { userId: clerkUserId } = await getAuth(args);
+
+  if (!clerkUserId) {
+    throw new Response("Unauthorized", { status: 401 });
+  }
+
+  // Check if the user exists in the database
+  let user = await prisma.user.findUnique({
+    where: { clerkUserId: clerkUserId },
+  });
+
+  const clerkUser = await clerkClient.users.getUser(clerkUserId)
+  // If the user does not exist, create them in the database
+  if (user === undefined) {
+    // Assuming you have access to Clerk's API via server-side SDK:
+    user = await prisma.user.create({
+      data: { 
+        username: clerkUser.username ?? "",           // Username, required by your ORM
+        role: 'user',                   // Role, you should set it to something like 'user', 'admin', etc.
+        email: clerkUser.emailAddresses[0]?.emailAddress, // Email
+        name: clerkUser.fullName,          // Date of the email (or timestamp), or any value that fits your schema
+        clerkUserId: clerkUserId,
+      },
+    });
+  }*/
   return json(neighborhoods);
 };
 

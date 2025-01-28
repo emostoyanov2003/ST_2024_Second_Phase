@@ -41,7 +41,7 @@ model item {
 model message {
   id          Int    @id @default(autoincrement())
   title       String
-  toUser      Int
+  toUser      String
   clerkUserId String
   message     String
 }
